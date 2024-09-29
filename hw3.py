@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import convolution as cv
 
-## Part b 
+################################### PART B ###################################
 def f(t,n):
     if t == 20:
         return 2.0
@@ -22,38 +22,6 @@ def f2(t,n):
         return 1.0
     else:
         return 0.0
-
-## Part c
-
-def g2(t,n):
-    if t>10:
-        return 0.0
-    elif t < 10 or t >= 0:
-        return 1/10
-
-## Part d
-
-def s(t, n):
-    if t > (2*n)/3:
-        return 0
-    elif t > n/3:
-        return 1
-    else:
-        return 1
-
-def r(t, n):
-
-    rand_num = np.random.randint(-1,1)
-    return s(t,n) + rand_num
-
-## Part e
-
-def g3(t,m):
-
-    if t > m:
-        return 0
-    elif t>= 0:
-        return 1/m
     
 def part_b_1(n):
     vec_f = np.arange(0,n,dtype=float)
@@ -103,6 +71,14 @@ def part_b_2(n):
     plt.tight_layout()
     plt.show()
 
+################################### PART C ###################################
+
+def g2(t,n):
+    if t>10:
+        return 0.0
+    elif t < 10 or t >= 0:
+        return 1/10
+
 def part_c(n):
     vec_g = np.arange(0,n,dtype=float)
     g_stem = cv.apply_func(g2, vec_g, n)
@@ -126,6 +102,21 @@ def part_c(n):
 
     plt.tight_layout()
     plt.show()
+
+################################### PART D ###################################
+
+def s(t, n):
+    if t > (2*n)/3:
+        return 0
+    elif t > n/3:
+        return 1
+    else:
+        return 1
+
+def r(t, n):
+
+    rand_num = np.random.randint(-1,1)
+    return s(t,n) + rand_num
 
 def part_d(n):
     vec_s = np.arange(0,n, dtype=float)
@@ -165,6 +156,15 @@ def part_d(n):
     plt.tight_layout()
     plt.show()
 
+################################### PART E ###################################
+
+def g3(t,m):
+
+    if t > m:
+        return 0
+    elif t>= 0:
+        return 1/m
+
 def part_e(n,m):
     vec_r = np.arange(0,n,dtype=float)
     r_stem = cv.apply_func(r, vec_r, n)
@@ -176,11 +176,11 @@ def part_e(n,m):
     h_stem = cv.discrete_convolution(r_stem,g_stem)
     vec_h = np.arange(0,len(h_stem))
 
-    # # r ⊗ g ⊗ g
+    # r ⊗ g ⊗ g
     h_stem = cv.discrete_convolution(h_stem,g_stem)
     vec_h = np.arange(0,len(h_stem))
 
-    # # r ⊗ g ⊗ g ⊗ g
+    # r ⊗ g ⊗ g ⊗ g
     h_stem = cv.discrete_convolution(h_stem,g_stem)
     vec_h = np.arange(0,len(h_stem))
 
@@ -206,10 +206,11 @@ def part_e(n,m):
     plt.tight_layout()
     plt.show()
 
+################################### MAIN FUNC ###################################
+
 if __name__ == '__main__':
     # part_b_1(50)
     # part_b_2(50)
     # part_c(10)
     # part_d(10000)
-    part_e(10000,500)
-
+    part_e(10000,400)
