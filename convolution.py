@@ -10,10 +10,6 @@ def apply_func(func, vec, n):
 
     return output
 
-def numpy_convolution(f1,f2):
-
-    return np.convolve(f1,f2, 'full')
-
 def discrete_convolution(f,g):
 
     len_f = len(f)

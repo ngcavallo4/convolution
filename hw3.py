@@ -2,6 +2,37 @@ import numpy as np
 import matplotlib.pyplot as plt
 import convolution as cv
 
+## Part b 
+def f(t,n):
+    if t == 20:
+        return 2.0
+    else:
+        return 0.0
+
+def g(t,n):
+    if t == 5:
+        return 3.0
+    else:
+        return 0.0
+    
+def f2(t,n):
+    if t == 20:
+        return 1.0
+    elif t == 5:
+        return 1.0
+    else:
+        return 0.0
+
+## Part c
+
+def g2(t,n):
+    if t>10:
+        return 0.0
+    elif t < 10 or t >= 0:
+        return 1/10
+
+## Part d
+
 def s(t, n):
     if t > (2*n)/3:
         return 0
@@ -15,24 +46,72 @@ def r(t, n):
     rand_num = np.random.randint(-1,1)
     return s(t,n) + rand_num
 
-def g(t,m):
+## Part e
+
+def g3(t,m):
 
     if t > m:
         return 0
     elif t>= 0:
         return 1/m
     
-def f(t,n):
-    if t == 20:
-        return 2.0
-    else:
-        return 0.0
+def part_b_1(n):
+    vec_f = np.arange(0,n,dtype=float)
+    f_stem = cv.apply_func(f, vec_f, n)
 
-def g2(t,n):
-    if t == 5:
-        return 3.0
-    else:
-        return 0.0
+    vec_g = np.arange(0,n,dtype=float)
+    g_stem = cv.apply_func(g, vec_g, n)
+
+    h_stem_mine = cv.discrete_convolution(f_stem,g_stem)
+    vec_h = np.arange(0,len(h_stem_mine))
+
+    plt.figure()
+
+    f_handle = plt.stem(vec_f, f_stem, markerfmt='bo', linefmt='b-', label='f')
+    g_handle = plt.stem(vec_g, g_stem, markerfmt='ro', linefmt='r-', label='g')
+    h_handle = plt.stem(vec_h, h_stem_mine, markerfmt='go', linefmt='g-', label='h')
+
+    plt.xlabel("t")
+    plt.ylabel("Amplitude")
+    plt.title("f ⊗ g")
+    plt.legend(loc='upper right')
+
+    # ax2.set_xlabel("t")
+    # ax2.set_ylabel("Amplitude")
+    # ax2.set_title("g(t)")
+    # ax2.legend(loc='upper right')
+
+    # ax3.set_xlabel("t")
+    # ax3.set_ylabel("Amplitude")
+    # ax3.set_title("h(t)")
+    # ax3.legend(loc='upper right')
+
+    plt.tight_layout()
+    plt.show()
+
+def part_b_2(n):
+    vec_f = np.arange(0,n,dtype=float)
+    f_stem = cv.apply_func(f2, vec_f, n)
+
+    vec_g = np.arange(0,n,dtype=float)
+    g_stem = cv.apply_func(f2, vec_g, n)
+
+    h_stem_mine = cv.discrete_convolution(f_stem,g_stem)
+    vec_h = np.arange(0,len(h_stem_mine))
+
+    plt.figure()
+
+    f_handle = plt.stem(vec_f, f_stem, markerfmt='bo', linefmt='b-', label='f')
+    g_handle = plt.stem(vec_g, g_stem, markerfmt='bo', linefmt='b-', label='f')
+    h_handle = plt.stem(vec_h, h_stem_mine, markerfmt='go', linefmt='g-', label='f ⊗ f')
+
+    plt.xlabel("t")
+    plt.ylabel("Amplitude")
+    plt.title("f ⊗ f")
+    plt.legend(loc='upper right')
+
+    plt.tight_layout()
+    plt.show()
 
 def part_e(n,m):
     vec_s = np.arange(0,n, dtype=float)
@@ -52,7 +131,7 @@ def part_e(n,m):
     print(f"{r_zeros_left} zeros < 6667 in r(t), {r_zeros_right} > 6667, \n {r_ones_left} ones < 6667 in s(t), {r_neg_right} -1s > 6667\n ")
 
     vec_g = np.arange(0,n,dtype=float)
-    g_stem = cv.apply_func(g, vec_g, m)
+    g_stem = cv.apply_func(g3, vec_g, m)
 
     # r ⊗ g
     h_stem = cv.discrete_convolution(r_stem,g_stem)
@@ -63,13 +142,8 @@ def part_e(n,m):
     vec_h = np.arange(0,len(h_stem))
 
     # # r ⊗ g ⊗ g ⊗ g
-    # h_stem = cv.discrete_convolution(h_stem,g_stem)
-    # vec_h = np.arange(0,len(h_stem))
-
-    # checking with numpy convolve
-    h = cv.numpy_convolution(r_stem,g_stem)
-    h = cv.numpy_convolution(h,g_stem)
-    # h = cv.numpy_convolution(h,g_stem)
+    h_stem = cv.discrete_convolution(h_stem,g_stem)
+    vec_h = np.arange(0,len(h_stem))
 
     fig, axs = plt.subplots(1,2, figsize = (14,6))
 
@@ -107,61 +181,6 @@ def part_e(n,m):
     plt.tight_layout()
     plt.show()
 
-    return h_stem, h
-
-def part_a(n):
-    vec_f = np.arange(0,n,dtype=float)
-    f_stem = cv.apply_func(f, vec_f, n)
-
-    vec_g = np.arange(0,n,dtype=float)
-    g_stem = cv.apply_func(g2, vec_g, n)
-
-    h_stem_mine = cv.discrete_convolution(f_stem,g_stem)
-    vec_h = np.arange(0,len(h_stem_mine))
-
-    h_stem_numpy = cv.numpy_convolution(f_stem,g_stem)
-
-    fig, axs = plt.subplots(1,3, figsize = (14,6))
-    ax1 = axs[0]
-    ax2 = axs[1]
-    ax3 = axs[2]
-
-    f_handle = ax1.stem(vec_f, f_stem, markerfmt='bo', linefmt='b-', label='f')
-    g_handle = ax2.stem(vec_g, g_stem, markerfmt='bo', linefmt='b-', label='g')
-    h_handle = ax3.stem(vec_h, h_stem_mine, markerfmt='bo', linefmt='b-', label='h')
-
-    ax1.set_xlabel("t")
-    ax1.set_ylabel("Amplitude")
-    ax1.set_title("f(t)")
-    ax1.legend(loc='upper right')
-
-    ax2.set_xlabel("t")
-    ax2.set_ylabel("Amplitude")
-    ax2.set_title("g(t)")
-    ax2.legend(loc='upper right')
-
-    ax3.set_xlabel("t")
-    ax3.set_ylabel("Amplitude")
-    ax3.set_title("h(t)")
-    ax3.legend(loc='upper right')
-
-    plt.tight_layout()
-    plt.show()
-
-    return h_stem_mine, h_stem_numpy
-
-def test(vec1, vec2):
-
-    vec1 = np.array(vec1)
-    vec2 = np.array(vec2)
-
-    if np.array_equal(vec1,vec2):
-        print("Matches up!")
-    else:
-        print("Something went wrong")
-
-# h_mine, h_numpy = part_a(50)
-# test(h_mine, h_numpy)
-
-h_stem, h3 = part_e(10000,1000)
-test(h_stem, h3)
+part_b_1(50)
+part_b_2(50)
+# part_e(10000,1000)
