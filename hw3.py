@@ -76,16 +76,6 @@ def part_b_1(n):
     plt.title("f ⊗ g")
     plt.legend(loc='upper right')
 
-    # ax2.set_xlabel("t")
-    # ax2.set_ylabel("Amplitude")
-    # ax2.set_title("g(t)")
-    # ax2.legend(loc='upper right')
-
-    # ax3.set_xlabel("t")
-    # ax3.set_ylabel("Amplitude")
-    # ax3.set_title("h(t)")
-    # ax3.legend(loc='upper right')
-
     plt.tight_layout()
     plt.show()
 
@@ -113,7 +103,31 @@ def part_b_2(n):
     plt.tight_layout()
     plt.show()
 
-def part_e(n,m):
+def part_c(n):
+    vec_g = np.arange(0,n,dtype=float)
+    g_stem = cv.apply_func(g2, vec_g, n)
+
+    # g ⊗ g
+    h_stem = cv.discrete_convolution(g_stem,g_stem)
+    vec_h = np.arange(0,len(h_stem))
+
+    # g ⊗ g ⊗ g
+    h_stem = cv.discrete_convolution(h_stem,g_stem)
+    vec_h = np.arange(0,len(h_stem))
+
+    plt.figure()
+    g_handle = plt.stem(vec_g, g_stem, markerfmt='bo', linefmt='b-', label='g')
+    h_handle = plt.stem(vec_h, h_stem, markerfmt='go', linefmt='g-', label='g ⊗ g ⊗ g')
+
+    plt.xlabel("t")
+    plt.ylabel("Amplitude")
+    plt.title("g ⊗ g ⊗ g")
+    plt.legend(loc='upper right')
+
+    plt.tight_layout()
+    plt.show()
+
+def part_d(n):
     vec_s = np.arange(0,n, dtype=float)
     s_stem = cv.apply_func(s,vec_s, n)
     s_stem_left = s_stem[:6667]
@@ -129,6 +143,31 @@ def part_e(n,m):
     r_zeros_left, r_ones_left, z = cv.count_zeros_ones(r_stem_left)
     r_zeros_right, r_ones_right, r_neg_right = cv.count_zeros_ones(r_stem_right)
     print(f"{r_zeros_left} zeros < 6667 in r(t), {r_zeros_right} > 6667, \n {r_ones_left} ones < 6667 in s(t), {r_neg_right} -1s > 6667\n ")
+
+    fig, axs = plt.subplots(1,2, figsize = (14,6))
+    ax1 = axs[0]
+    ax2 = axs[1]
+
+    s_handle = ax1.stem(vec_s, s_stem, markerfmt='bo', linefmt='b-', label='s')
+    r_handle = ax2.stem(vec_r, r_stem, markerfmt='bo', linefmt='b-', label='r')
+
+    ax1.set_xlabel("t")
+    ax1.set_ylabel("Amplitude")
+    ax1.set_title("s(t)")
+    ax1.legend(loc='upper right')
+
+    ax2.set_xlabel("t")
+    ax2.set_ylabel("Amplitude")
+    ax2.set_title("r(t)")
+    ax2.legend(loc='upper right')
+
+    fig.suptitle('s(t) and r(t)')
+    plt.tight_layout()
+    plt.show()
+
+def part_e(n,m):
+    vec_r = np.arange(0,n,dtype=float)
+    r_stem = cv.apply_func(r, vec_r, n)
 
     vec_g = np.arange(0,n,dtype=float)
     g_stem = cv.apply_func(g3, vec_g, m)
@@ -147,40 +186,30 @@ def part_e(n,m):
 
     fig, axs = plt.subplots(1,2, figsize = (14,6))
 
-    # ax1 = axs[0,0]
-    # ax2 = axs[0,1]
-    ax3 = axs[0]
-    ax4 = axs[1]
+    ax1 = axs[0]
+    ax2 = axs[1]
 
-    # s_handle = ax1.stem(vec_s, s_stem, markerfmt='bo', linefmt='b-', label='s')
-    # r_handle = ax2.stem(vec_r, r_stem, markerfmt='bo', linefmt='b-', label='r')
-    g_handle = ax3.stem(vec_g, g_stem, markerfmt='bo', linefmt='b-', label='g')
-    h_handle = ax4.stem(vec_h, h_stem, markerfmt='bo', linefmt='b-', label='h ⊗ g ⊗ g')
+    g_handle = ax1.stem(vec_g, g_stem, markerfmt='bo', linefmt='b-', label='g')
+    h_handle = ax2.stem(vec_h, h_stem, markerfmt='bo', linefmt='b-', label='h ⊗ g ⊗ g')
 
-    # ax1.set_xlabel("t")
-    # ax1.set_ylabel("Amplitude")
-    # ax1.set_title("s(t)")
-    # ax1.legend(loc='upper right')
+    ax1.set_xlabel("t")
+    ax1.set_ylabel("Amplitude")
+    ax1.set_title("g(t)")
+    ax1.legend(loc='upper right')
 
-    # ax2.set_xlabel("t")
-    # ax2.set_ylabel("Amplitude")
-    # ax2.set_title("r(t)")
-    # ax2.legend(loc='upper right')
-
-    ax3.set_xlabel("t")
-    ax3.set_ylabel("Amplitude")
-    ax3.set_title("g(t)")
-    ax3.legend(loc='upper right')
-
-    ax4.set_xlabel("t")
-    ax4.set_ylabel("Amplitude")
-    ax4.set_title("r ⊗ g")
-    ax4.legend(loc='upper right')
+    ax2.set_xlabel("t")
+    ax2.set_ylabel("Amplitude")
+    ax2.set_title("r ⊗ g")
+    ax2.legend(loc='upper right')
 
     fig.suptitle(f'N = {n}, M = {m}')
     plt.tight_layout()
     plt.show()
 
-part_b_1(50)
-part_b_2(50)
-# part_e(10000,1000)
+if __name__ == '__main__':
+    # part_b_1(50)
+    # part_b_2(50)
+    # part_c(10)
+    # part_d(10000)
+    part_e(10000,500)
+
