@@ -111,7 +111,7 @@ def s(t, n):
     elif t > n/3:
         return 1
     else:
-        return 1
+        return 0
 
 def r(t, n):
 
@@ -213,4 +213,4 @@ if __name__ == '__main__':
     # part_b_2(50)
     # part_c(10)
     # part_d(10000)
-    part_e(10000,400)
+    part_e(10000,10000)
